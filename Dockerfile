@@ -7,7 +7,8 @@ RUN tar fx 2.1.3.tar.gz
 WORKDIR /srv/compilation/sslscan-2.1.3
 RUN make static
 
-FROM debian:bookworm-slim AS binary
+FROM alpine:3.21 AS binary
+RUN apk add --no-cache gcompat
 COPY --from=build /srv/compilation/sslscan-2.1.3/sslscan /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/sslscan"]
 CMD ["-h"]
